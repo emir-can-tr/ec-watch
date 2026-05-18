@@ -156,6 +156,12 @@ ec-watch/
 
 ---
 
+## Kaynak
+
+https://github.com/bradautomates/claude-video
+
+---
+
 ## 📜 Lisans
 
 MIT Lisansı — bkz. [LICENSE](LICENSE)
