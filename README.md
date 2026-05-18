@@ -156,6 +156,12 @@ ec-watch/
 
 ---
 
+## Credit
+
+https://github.com/bradautomates/claude-video
+
+---
+
 ## 📜 License
 
 MIT License — see [LICENSE](LICENSE)
