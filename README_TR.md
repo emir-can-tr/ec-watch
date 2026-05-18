@@ -1,122 +1,161 @@
-# /ec-watch — Claude Videoları İzler
+# 🎬 /ec-watch — Claude Videoları İzler
 
-**Claude'a herhangi bir videoyu izleme yeteneği verin.**
+> **Claude'a herhangi bir videoyu izleme yeteneği verin.** Bir URL veya yerel dosya yolu yapıştırın, soru sorun — ekranda ne olduğuna dayalı cevaplar alın.
 
-```
-/ec-watch <url-veya-dosya-yolu> [soru]
-```
-
-Kurulum gerektirmez — `yt-dlp` ve `ffmpeg` ilk çalıştırmada kurulur. Altyazılar çoğu public video için ücretsizdir. Yerel faster-whisper transkripsiyonu için API anahtarı gerekmez.
-
----
-
-## Neden Var
-
-Claude bir web sayfasını okuyabilir, bir komut çalıştırabilir, bir repo'ya göz atabilir. Ancak yapamadığı şey, videoları *izlemektir*. Bir YouTube linki yapıştırdığınızda, ya başlıktan tahmin etmesi gerekir ya da ekrandakilerin %90'ını kaçıran bir transkript alır.
-
-`/ec-watch` ile bir URL veya yerel dosya yolu yapıştırın, bir soru sorun. Claude video indirir, kareleri otomatik ölçekli hızda çıkarır, zaman damgalı bir transkript alır ve her kareyi analiz eder. Cevap verdiğinde, video'yu *görmüş* ve sesi *duymuş* olur.
+[![MIT Lisansı](https://img.shields.io/badge/Lisans-MIT-purple.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-green.svg)](https://claude.ai)
 
 ```
 /ec-watch https://youtu.be/dQw4w9WgXcQ 30. saniyede ne oluyor?
 ```
 
-## Ne Yapabilirsiniz
+---
 
-**İçerik yapısını analiz edin.** Viral bir video URL'si yapıştırın ve "Ne tür bir açılış kullandılar?" diye sorun. Claude ilk karelere bakar, açılış transkriptini okur, yapıyı analiz eder.
+## ✨ Ne Yapar
 
-**Ekran kayıtlarından hata teşhisi yapın.** Size bozuk bir şeyin ekran kaydını gönderirler. `/ec-watch hata-kaydi.mov ne yanlış gidiyor?` Claude kaydı izler, sorunlu kareyi bulur.
+| Özellik | Açıklama |
+|---------|-------------|
+| **URL Desteği** | YouTube, Vimeo, TikTok, X, Loom ve 500+ diğer site `yt-dlp` ile |
+| **Yerel Dosyalar** | `.mp4`, `.mov`, `.mkv`, `.webm`, `.avi` ve fazlası |
+| **Otomatik Kareler** | Süreye göre kare çıkarma (max 2 fps, 100 kare limiti) |
+| **Ücretsiz Transkripsiyon** | Önce native altyazılar, sonra yerel faster-whisper (API anahtarı gerekmez) |
+| **AI Analizi** | Her kareyi multimodal AI ile okur, transkriptle birleştirir |
 
-**Videoları özetleyin.** `/ec-watch https://youtu.be/<video> bunu özetle` — yapıyı, önemli anları, söylenenleri çıkarır.
+---
 
-## Nasıl Çalışır
+## 🚀 Hızlı Başlangıç
 
-1. **Bir video ve soru yapıştırın.** URL (YouTube, Vimeo, TikTok, X, Loom, + yüzlerce site) veya yerel dosya (`.mp4`, `.mov`, `.mkv`, `.webm`).
-2. **`yt-dlp` onu indirir.** URL'ler için geçici dizin. Yerel dosyalar için indirme yok — doğrudan işlenir.
-3. **`ffmpeg` kareleri otomatik ölçekli hızda çıkarır.** Süreye göre kare bütçesi: ≤30sn ~30 kare, 30-60sn ~40, 1-3dk ~60, 3-10dk ~80, uzun videolar 100 kare. Sabit limitler: 2 fps, 100 kare.
-4. **Transkript altyazılardan veya yerel Whisper'dan.** Önce native altyazılar (ücretsiz). Yoksa yerel faster-whisper — API anahtarı gerekmez.
-5. **Claude kareleri + transkripti analiz eder.** Ekranda ne varsa ve ses ne diyorsa ona dayalı cevap verir.
+### Kurulum
 
-## Kurulum
-
-### Claude Code
-
-```
+```bash
+# Claude Code
 /plugin install ec-watch
-```
 
-Marketplace üzerinden:
-```
+# Veya marketplace'den
 /plugin marketplace add emir-can-tr/ec-watch
 ```
 
-### Manuel Kurulum
+### Kullanım
 
 ```bash
-git clone https://github.com/emir-can-tr/ec-watch.git ~/.claude/skills/ec-watch
-```
-
-## İlk Çalıştırma
-
-İlk çalıştırmada `setup.py` otomatik olarak çalışır:
-- `ffmpeg` ve `yt-dlp` kontrolü — eksikse kurulum komutlarını yazdırır
-- Yerel Whisper ayarı (ilk kullanımda modeli otomatik indirir)
-- Transkripsiyon için API anahtarı gerekmez
-
-## Kullanım
-
-```
 /ec-watch <url-veya-dosya-yolu> [soru]
 ```
 
-Odaklı mod — daha yoğun kare bütçesi, daha düşük token maliyeti:
-```
-/ec-watch https://youtu.be/abc --start 2:15 --end 2:45
-/ec-watch video.mp4 --start 50 --end 60
-```
+### Örnekler
 
-Seçenekler:
-- `--start S` / `--end S` — belirli bir bölüme odaklan
-- `--max-frames N` — kare limitini düşür
-- `--resolution G` — kare genişliği (varsayılan 512, ekrandaki metin için 1024'e çıkar)
-- `--fps F` — otomatik fps'i ez (max 2 fps)
-- `--no-whisper` — transkripsiyonu kapat (sadece kareler)
-
-## Gereksinimler
-
-- `yt-dlp` — video indirme
-- `ffmpeg` — kare çıkarma
-- `faster-whisper` — yerel transkripsiyon (modeli otomatik indirir)
-
-yt-dlp ve ffmpeg kurulumu:
 ```bash
-# macOS
-brew install yt-dlp ffmpeg
+# Viral bir videoyu analiz et
+/ec-watch https://youtu.be/dQw4w9WgXcQ ne tür bir açılış kullandılar?
 
-# Linux (Ubuntu/Debian)
-sudo apt install yt-dlp ffmpeg
+# Ekran kaydından hatayı teşhis et
+/ec-watch ~/Downloads/hata-kaydi.mov ne yanlış gidiyor?
 
-# Windows
-winget install yt-dlp ffmpeg
+# Uzun bir videoyu özetle
+/ec-watch https://youtu.be/abc önemli noktaları özetle
+
+# Belirli bir bölüme odaklan
+/ec-watch https://youtu.be/xyz --start 2:15 --end 2:45
 ```
 
-## Yapı
+---
+
+## 🔧 Nasıl Çalışır
 
 ```
-.
-├── SKILL.md              # Skill tanımı
+┌─────────────────────────────────────────────────────────────┐
+│  1. İNDİRME                                                │
+│     yt-dlp video çeker → geçici dizin                       │
+│     Altyazılar otomatik çıkarılır (ücretsiz)               │
+├─────────────────────────────────────────────────────────────┤
+│  2. KARE ÇIKARMA                                           │
+│     ffmpeg kareleri otomatik fps ile çıkarır               │
+│     Bütçe: ≤30sn→30k, 30-60sn→40k, 1-3dk→60k, 3-10dk→80k│
+├─────────────────────────────────────────────────────────────┤
+│  3. TRANSKRİPSİYON                                         │
+│     Native altyazılar (ücretsiz) veya yerel faster-whisper  │
+│     Transkripsiyon için API anahtarı gerekmez               │
+├─────────────────────────────────────────────────────────────┤
+│  4. AI ANALİZİ                                             │
+│     Claude her kareyi + transkripti okur                    │
+│     Cevaplar görsel + ses içeriğine dayalı                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📊 Kare Bütçesi
+
+| Süre | Kareler | Kullanım |
+|------|---------|----------|
+| ≤30sn | ~30 | Yoğun — her ana an |
+| 30sn - 1dk | ~40 | Hâlâ yoğun |
+| 1 - 3dk | ~60 | Rahat |
+| 3 - 10dk | ~80 | Seyrek ama kullanılabilir |
+| >10dk | 100 | Seyrek tarama — odaklı yeniden çalıştır |
+
+Belirli bölümler için `--start` / `--end` kullan.
+
+---
+
+## ⚙️ Seçenekler
+
+| Bayrak | Varsayılan | Açıklama |
+|--------|------------|----------|
+| `--start S` | - | Başlangıç zamanı (SS, DD:SS veya SS:DD:SS) |
+| `--end S` | - | Bitiş zamanı |
+| `--max-frames N` | 80 | Kare limiti (max 100) |
+| `--resolution G` | 512 | Kare genişliği (piksel) |
+| `--fps F` | otomatik | fps'i ez (max 2 fps) |
+| `--no-whisper` | - | Transkripsiyonu kapat (sadece kareler) |
+
+---
+
+## 🔒 Gizlilik & Güvenlik
+
+- **Yerel İşleme** — Video geçici dizine indirilir, ses yerel olarak transkribe edilir
+- **Veri Gönderilmez** — faster-whisper tamamen makinenizde çalışır
+- **Otomatik Temizlik** — İşlem bitince çalışma dizini silinir
+- **API Anahtarı Gerekmez** — Transkripsiyon çevrimdışı çalışır
+
+---
+
+## 📁 Proje Yapısı
+
+```
+ec-watch/
+├── SKILL.md              # Skill tanımı (Claude Code)
+├── commands/
+│   └── watch.md         # Slash komut shim
 ├── scripts/
 │   ├── watch.py         # Ana orkestratör
 │   ├── download.py      # yt-dlp sarmalayıcı
 │   ├── frames.py        # ffmpeg kare çıkarma
 │   ├── transcribe.py    # VTT + Whisper yönetimi
-│   ├── whisper.py       # Whisper istemcileri
+│   ├── whisper.py       # Yerel faster-whisper istemcisi
 │   └── setup.py         # Ön kontrol + kurulum
-├── commands/
-│   └── watch.md         # Slash komut shim
 └── hooks/
     └── SessionStart/    # Durum hook'u
 ```
 
-## Lisans
+---
 
-MIT — bkz. [LICENSE](LICENSE)
+## 🛠️ Gereksinimler
+
+| Araç | Amaç | Kurulum |
+|------|------|---------|
+| `yt-dlp` | Video indirme | `brew install yt-dlp` / `winget install yt-dlp` |
+| `ffmpeg` | Kare çıkarma | `brew install ffmpeg` / `winget install Gyan.FFmpeg` |
+| `faster-whisper` | Yerel transkripsiyon | İlk kullanımda otomatik kurulur |
+
+---
+
+## 🌐 Diller
+
+> Read this in English: [README.md](README.md)
+
+---
+
+## 📜 Lisans
+
+MIT Lisansı — bkz. [LICENSE](LICENSE)
