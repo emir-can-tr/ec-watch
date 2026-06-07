@@ -30,7 +30,6 @@
 
 ```bash
 /plugin marketplace add emir-can-tr/ec-watch
-
 /plugin install ec-watch
 ```
 
