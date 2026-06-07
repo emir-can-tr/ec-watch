@@ -29,11 +29,8 @@
 ### Kurulum
 
 ```bash
-# Claude Code
-/plugin install ec-watch
-
-# Veya marketplace'den
 /plugin marketplace add emir-can-tr/ec-watch
+/plugin install ec-watch
 ```
 
 ### Kullanım
@@ -64,21 +61,21 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  1. İNDİRME                                                │
+│  1. İNDİRME                                                 │
 │     yt-dlp video çeker → geçici dizin                       │
-│     Altyazılar otomatik çıkarılır (ücretsiz)               │
+│     Altyazılar otomatik çıkarılır (ücretsiz)                │
 ├─────────────────────────────────────────────────────────────┤
-│  2. KARE ÇIKARMA                                           │
-│     ffmpeg kareleri otomatik fps ile çıkarır               │
-│     Bütçe: ≤30sn→30k, 30-60sn→40k, 1-3dk→60k, 3-10dk→80k│
+│  2. KARE ÇIKARMA                                            │
+│     ffmpeg kareleri otomatik fps ile çıkarır                │
+│     Bütçe: ≤30sn→30k, 30-60sn→40k, 1-3dk→60k, 3-10dk→80k    │
 ├─────────────────────────────────────────────────────────────┤
-│  3. TRANSKRİPSİYON                                         │
+│  3. TRANSKRİPSİYON                                          │
 │     Native altyazılar (ücretsiz) veya yerel faster-whisper  │
 │     Transkripsiyon için API anahtarı gerekmez               │
 ├─────────────────────────────────────────────────────────────┤
-│  4. AI ANALİZİ                                             │
+│  4. AI ANALİZİ                                              │
 │     Claude her kareyi + transkripti okur                    │
-│     Cevaplar görsel + ses içeriğine dayalı                 │
+│     Cevaplar görsel + ses içeriğine dayalı                  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
