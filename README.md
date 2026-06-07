@@ -29,11 +29,9 @@
 ### Install
 
 ```bash
-# Claude Code
-/plugin install ec-watch
-
-# Or from marketplace
 /plugin marketplace add emir-can-tr/ec-watch
+
+/plugin install ec-watch
 ```
 
 ### Use
@@ -66,10 +64,10 @@
 ┌─────────────────────────────────────────────────────────────┐
 │  1. DOWNLOAD                                                │
 │     yt-dlp fetches video → temp directory                   │
-│     Captions extracted automatically (free)                  │
+│     Captions extracted automatically (free)                 │
 ├─────────────────────────────────────────────────────────────┤
 │  2. FRAME EXTRACTION                                        │
-│     ffmpeg extracts frames at auto-scaled fps              │
+│     ffmpeg extracts frames at auto-scaled fps               │
 │     Budget: ≤30s→30f, 30-60s→40f, 1-3min→60f, 3-10min→80f   │
 ├─────────────────────────────────────────────────────────────┤
 │  3. TRANSCRIPTION                                           │
